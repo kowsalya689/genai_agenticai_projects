@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>News Desk – Article Classifier</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Newsreader:opsz,wght@6..72,500;6..72,600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f3f5f4;--panel:#fff;--ink:#17212b;--mute:#5d6b78;--line:#d9dfe3;--accent:#0f6b63;--accent-ink:#fff;--err:#a3321f}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#10171d;--panel:#18222b;--ink:#e8edf1;--mute:#93a1ad;--line:#2b3947;--accent:#4fc3b5;--accent-ink:#06211e;--err:#ff8c78}}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:16px/1.5 "IBM Plex Sans",system-ui,sans-serif;padding:env(safe-area-inset-top,0) 0 env(safe-area-inset-bottom,0)}
+.wrap{max-width:980px;margin:0 auto;padding:24px 16px 64px}
+header{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;border-bottom:2px solid var(--ink);padding-bottom:12px}
+h1{font:600 2.1rem/1.1 "Newsreader",Georgia,serif;margin:0}
+h2{font:600 1.25rem/1.2 "Newsreader",Georgia,serif;margin:0 0 12px}
+.status{font-size:.85rem;color:var(--mute);display:flex;align-items:center;gap:6px}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--mute)}
+.dot.ok{background:#2e9e5b}.dot.bad{background:var(--err)}
+details{margin:12px 0 0;font-size:.9rem;color:var(--mute)}
+details input{width:100%;max-width:360px;margin-top:6px}
+main{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:20px}
+@media (max-width:760px){main{grid-template-columns:1fr}}
+section{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:18px}
+textarea,input{width:100%;font:inherit;color:inherit;background:var(--bg);border:1px solid var(--line);border-radius:4px;padding:10px}
+textarea{min-height:190px;resize:vertical;font-family:"Newsreader",Georgia,serif;font-size:1.05rem}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;align-items:center}
+button{font:inherit;cursor:pointer;border-radius:4px;padding:9px 16px;border:1px solid var(--line);background:transparent;color:var(--ink)}
+button.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:600}
+button.small{padding:4px 10px;font-size:.85rem;color:var(--mute)}
+button:disabled{opacity:.55;cursor:wait}
+.result{min-height:190px;display:flex;flex-direction:column;justify-content:center}
+.empty{color:var(--mute)}
+.badge{display:inline-block;font:600 2rem/1.1 "Newsreader",Georgia,serif;padding:6px 14px;border-radius:4px;color:#fff;text-transform:capitalize;align-self:flex-start}
+.filed{margin-top:10px;color:var(--mute)}
+.err{color:var(--err)}
+.feeds{grid-column:1/-1}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.tab{padding:5px 12px;border-radius:999px;font-size:.9rem;display:flex;gap:6px;align-items:center}
+.tab[aria-pressed=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.tab i{width:8px;height:8px;border-radius:50%;display:inline-block}
+ul{list-style:none;margin:0;padding:0}
+li{border-top:1px solid var(--line);padding:10px 0;display:grid;grid-template-columns:auto 1fr;gap:4px 12px}
+li time{font-size:.8rem;color:var(--mute);white-space:nowrap}
+li p{margin:0;font-family:"Newsreader",Georgia,serif;overflow-wrap:anywhere}
+li .tag{font-size:.8rem;font-weight:600;text-transform:capitalize}
+@media (prefers-reduced-motion:no-preference){.badge{animation:pop .25s ease-out}@keyframes pop{from{transform:scale(.94);opacity:0}}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>News Desk</h1>
+    <div class="status"><span class="dot" id="dot"></span><span id="statusText">Checking API…</span></div>
+  </header>
+  <details>
+    <summary>API address</summary>
+    <input id="api" aria-label="API address" spellcheck="false">
+  </details>
+
+  <main>
+    <section>
+      <h2>Classify an article</h2>
+      <label for="text" class="empty">Paste a headline or the full article.</label>
+      <textarea id="text" placeholder="India beat Australia by six wickets to win the series"></textarea>
+      <div class="row">
+        <button class="primary" id="go">Classify and file</button>
+        <button class="small" data-sample="Global smartphone sales in Q3 fall 5.7% to 36.6 crore units: Gartner">Tech sample</button>
+        <button class="small" data-sample="India beat Australia by six wickets to win the series">Sports sample</button>
+        <button class="small" data-sample="Sensex jumps 400 points as banking stocks rally after RBI policy">Business sample</button>
+      </div>
+    </section>
+
+    <section class="result" aria-live="polite" id="result">
+      <p class="empty">The predicted category will appear here, and the article is added to that category's feed.</p>
+    </section>
+
+    <section class="feeds">
+      <div class="row" style="justify-content:space-between;margin:0 0 12px">
+        <h2 style="margin:0">Category feeds</h2>
+        <button class="small" id="clear">Clear feeds</button>
+      </div>
+      <div class="tabs" id="tabs"></div>
+      <ul id="list"></ul>
+    </section>
+  </main>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+const KEY_FEED = "newsdesk.feed", KEY_API = "newsdesk.api";
+let feed = [], active = "all";
+
+function store(op, k, v){ try { return op==="get" ? localStorage.getItem(k) : localStorage.setItem(k, v); } catch(e){ return null; } }
+
+// If served by FastAPI (http://host:port/app) use the same origin; otherwise the usual local address.
+const defaultApi = location.protocol.startsWith("http") ? location.origin : "http://127.0.0.1:8000";
+$("api").value = store("get", KEY_API) || defaultApi;
+$("api").addEventListener("change", () => { store("set", KEY_API, $("api").value.trim()); checkApi(); });
+const base = () => $("api").value.trim().replace(/\/+$/, "");
+
+try { feed = JSON.parse(store("get", KEY_FEED) || "[]"); } catch(e){ feed = []; }
+
+const color = c => { let h = 0; for (const ch of c) h = (h*31 + ch.charCodeAt(0)) % 360; return `hsl(${h} 55% 36%)`; };
+
+async function checkApi(){
+  try {
+    const r = await fetch(base() + "/openapi.json");
+    if (!r.ok) throw 0;
+    $("dot").className = "dot ok"; $("statusText").textContent = "API connected";
+  } catch(e){
+    $("dot").className = "dot bad"; $("statusText").textContent = "API not reachable";
+  }
+}
+
+async function classify(){
+  const text = $("text").value.trim();
+  const out = $("result");
+  if (!text){ out.innerHTML = '<p class="err">Enter some article text first.</p>'; return; }
+  $("go").disabled = true; $("go").textContent = "Classifying…";
+  try {
+    const r = await fetch(base() + "/predict", {
+      method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify({text})
+    });
+    if (!r.ok) throw new Error("The API answered with status " + r.status + ".");
+    const { category } = await r.json();
+    feed.unshift({ts: new Date().toISOString(), category, text});
+    store("set", KEY_FEED, JSON.stringify(feed.slice(0, 300)));
+    out.innerHTML = "";
+    const b = document.createElement("span"); b.className = "badge"; b.textContent = category; b.style.background = color(category);
+    const f = document.createElement("p"); f.className = "filed"; f.textContent = "Filed to the " + category + " feed.";
+    out.append(b, f);
+    active = category; render();
+    $("dot").className = "dot ok"; $("statusText").textContent = "API connected";
+  } catch(e){
+    out.innerHTML = "";
+    const p = document.createElement("p"); p.className = "err";
+    p.textContent = e instanceof TypeError
+      ? "Could not reach " + base() + ". Start the server with uvicorn src.api.app:app --reload, and allow this page's origin with CORS or serve the page from FastAPI (see the setup note)."
+      : e.message;
+    out.append(p);
+    $("dot").className = "dot bad"; $("statusText").textContent = "API not reachable";
+  } finally { $("go").disabled = false; $("go").textContent = "Classify and file"; }
+}
+
+function render(){
+  const cats = [...new Set(feed.map(x => x.category))].sort();
+  if (active !== "all" && !cats.includes(active)) active = "all";
+  const tabs = $("tabs"); tabs.innerHTML = "";
+  [["all", feed.length], ...cats.map(c => [c, feed.filter(x => x.category === c).length])].forEach(([c, n]) => {
+    const t = document.createElement("button"); t.className = "tab"; t.setAttribute("aria-pressed", c === active);
+    if (c !== "all"){ const i = document.createElement("i"); i.style.background = color(c); t.append(i); }
+    t.append(document.createTextNode((c === "all" ? "All" : c) + " " + n));
+    t.style.textTransform = "capitalize";
+    t.onclick = () => { active = c; render(); };
+    tabs.append(t);
+  });
+  const list = $("list"); list.innerHTML = "";
+  const items = feed.filter(x => active === "all" || x.category === active);
+  if (!items.length){ const li = document.createElement("li"); li.style.display = "block"; li.className = "empty"; li.textContent = "No articles filed yet. Classify one above."; list.append(li); return; }
+  items.slice(0, 100).forEach(x => {
+    const li = document.createElement("li");
+    const tm = document.createElement("time"); tm.textContent = new Date(x.ts).toLocaleString([], {dateStyle:"medium", timeStyle:"short"});
+    const tag = document.createElement("span"); tag.className = "tag"; tag.textContent = x.category; tag.style.color = color(x.category);
+    const p = document.createElement("p"); p.textContent = x.text.length > 280 ? x.text.slice(0, 280) + "…" : x.text;
+    const left = document.createElement("div"); left.append(tag, document.createElement("br"), tm);
+    li.append(left, p); list.append(li);
+  });
+}
+
+$("go").onclick = classify;
+$("text").addEventListener("keydown", e => { if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) classify(); });
+document.querySelectorAll("[data-sample]").forEach(b => b.onclick = () => { $("text").value = b.dataset.sample; $("text").focus(); });
+$("clear").onclick = () => { feed = []; store("set", KEY_FEED, "[]"); render(); };
+
+render(); checkApi();
+</script>
+</body>
+</html>
