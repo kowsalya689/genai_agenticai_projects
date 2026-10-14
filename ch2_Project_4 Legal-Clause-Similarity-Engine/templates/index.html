@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Legal Clause Similarity Engine</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --navy: #0a1230;
+            --navy-2: #12204a;
+            --teal: #3fc1c9;
+            --teal-dark: #2aa4ad;
+            --ink: #1b2437;
+            --muted: #6b7489;
+            --line: #e3e7ef;
+            --bg: #ffffff;
+        }
+        * { box-sizing: border-box; }
+        body { margin:0; font-family:"Inter", system-ui, "Segoe UI", sans-serif; color:var(--ink); background:var(--bg); }
+
+        /* ---------- hero ---------- */
+        .hero {
+            position: relative; text-align:center; color:#fff;
+            padding: 64px 20px 130px;
+            background:
+                radial-gradient(700px 320px at 80% 0%, rgba(63,193,201,.22), transparent 65%),
+                radial-gradient(600px 300px at 10% 20%, rgba(90,110,255,.25), transparent 65%),
+                linear-gradient(180deg, var(--navy) 0%, var(--navy-2) 100%);
+        }
+        .badge {
+            display:inline-flex; align-items:center; gap:8px; font-size:12px; font-weight:500;
+            padding:7px 16px; border-radius:999px; color:#dbe4ff;
+            background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.18);
+        }
+        .badge i { width:7px; height:7px; border-radius:50%; background:var(--teal); box-shadow:0 0 8px var(--teal); }
+        .hero h1 { margin:22px 0 14px; font-size:clamp(30px, 6.2vw, 54px); font-weight:800; letter-spacing:-.02em; line-height:1.1; }
+        .grad { background:linear-gradient(90deg, #4fd1d9, #8c9bff); -webkit-background-clip:text; background-clip:text; color:transparent; }
+        .hero p { margin:0 auto; max-width:560px; color:#b9c4e4; line-height:1.6; font-size:15px; }
+        .hero p b { color:#fff; }
+
+        /* ---------- search card ---------- */
+        .wrap { max-width:760px; margin:-84px auto 0; padding:0 18px 70px; position:relative; }
+        .card {
+            background:#fff; border:1px solid var(--line); border-radius:18px; padding:22px;
+            box-shadow:0 18px 50px rgba(15,25,70,.14);
+        }
+        textarea {
+            width:100%; min-height:110px; padding:14px 16px; font:inherit; font-size:15px; color:var(--ink);
+            border:1px solid var(--line); border-radius:12px; resize:vertical; background:#fbfcfe;
+        }
+        textarea::placeholder { color:#98a1b6; }
+        textarea:focus, select:focus { outline:none; border-color:var(--teal); box-shadow:0 0 0 3px rgba(63,193,201,.2); }
+        .controls { display:flex; gap:16px; align-items:flex-end; flex-wrap:wrap; margin-top:18px; }
+        .field { display:flex; flex-direction:column; gap:7px; min-width:150px; flex:1 1 150px; }
+        .field label { font-size:11px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); }
+        select {
+            font:inherit; font-size:14px; padding:11px 12px; border:1px solid var(--line); border-radius:10px; background:#fff; color:var(--ink);
+        }
+        .btn {
+            display:inline-flex; align-items:center; justify-content:center; gap:8px; border:0; cursor:pointer;
+            font:inherit; font-weight:600; font-size:15px; color:#fff; padding:12px 22px; border-radius:10px;
+            background:linear-gradient(135deg, #4fd1d9, var(--teal-dark)); transition:transform .15s, box-shadow .15s;
+            box-shadow:0 6px 18px rgba(42,164,173,.35);
+        }
+        .btn:hover { transform:translateY(-1px); box-shadow:0 10px 24px rgba(42,164,173,.4); }
+        .btn svg { width:16px; height:16px; }
+        .try { display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin-top:18px; font-size:13px; color:var(--muted); }
+        .chip {
+            font:inherit; font-size:13px; color:#1d8f98; background:#e9f8f9; border:0; padding:6px 14px;
+            border-radius:999px; cursor:pointer; transition:background .15s;
+        }
+        .chip:hover { background:#d3f0f2; }
+
+        /* ---------- messages & results ---------- */
+        .error { margin-top:20px; background:#fff1f1; color:#b42626; border:1px solid #f5c9c9; padding:13px 16px; border-radius:12px; font-size:14px; }
+        .results { margin-top:30px; }
+        .results h2 { font-size:18px; margin:0 0 14px; }
+        .results h2 span { color:var(--muted); font-weight:500; font-size:14px; }
+        .result { border:1px solid var(--line); border-radius:14px; padding:18px; margin-bottom:12px; background:#fff; }
+        .result:first-of-type { border-color:rgba(63,193,201,.6); box-shadow:0 6px 20px rgba(63,193,201,.12); }
+        .result-top { display:flex; align-items:center; gap:10px; margin-bottom:10px; font-size:13px; }
+        .rank { background:var(--navy); color:#fff; padding:2px 11px; border-radius:999px; font-weight:600; }
+        .tag { background:#eef1fb; color:#4452b8; padding:2px 11px; border-radius:999px; font-weight:500; }
+        .score { margin-left:auto; color:var(--muted); }
+        .score b { color:var(--ink); }
+        .result p { margin:0 0 14px; line-height:1.65; font-size:15px; }
+        .bar { height:7px; background:#edf0f6; border-radius:99px; overflow:hidden; }
+        .bar span { display:block; height:100%; width:0; border-radius:99px; background:linear-gradient(90deg, #4fd1d9, #6f7dff); transition:width .8s ease; }
+        .meta { font-size:12px; color:var(--muted); margin-top:8px; }
+
+        @media (max-width:520px) { .btn { width:100%; } .hero { padding-top:48px; } }
+    </style>
+</head>
+
+<body>
+    <header class="hero">
+        <span class="badge"><i></i> Clause Intelligence</span>
+        <h1>Legal Clause <span class="grad">Similarity Engine</span></h1>
+        <p>
+            Search <b>{{ total }}</b> indexed legal clauses by meaning — powered by a trained
+            Word2Vec embedding model and cosine similarity.
+        </p>
+    </header>
+
+    <main class="wrap">
+        <section class="card">
+            <form method="POST" action="{{ url_for('index') }}">
+                <textarea id="text" name="text" required
+                    placeholder="e.g. The borrower shall not incur any additional indebtedness without prior written consent of the lender.">{{ query }}</textarea>
+
+                <div class="controls">
+                    <div class="field">
+                        <label for="clause_type">Filter by type</label>
+                        <select id="clause_type" name="clause_type">
+                            <option value="all">All clause types</option>
+                            {% for t in types %}
+                            <option value="{{ t }}" {% if t == selected_type %}selected{% endif %}>{{ t }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="top_k">Results</label>
+                        <select id="top_k" name="top_k">
+                            {% for k in [3, 5, 10, 15, 20] %}
+                            <option value="{{ k }}" {% if k == top_k %}selected{% endif %}>{{ k }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <button type="submit" class="btn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+                        Find similar clauses
+                    </button>
+                </div>
+
+                <div class="try">
+                    Try:
+                    <button type="button" class="chip" data-s="The receiving party shall not disclose any confidential information to third parties without prior written consent.">Confidentiality</button>
+                    <button type="button" class="chip" data-s="This agreement shall be governed by and construed in accordance with the laws of the State of New York.">Governing law</button>
+                    <button type="button" class="chip" data-s="The employee shall receive an annual base salary payable in equal monthly instalments.">Base salary</button>
+                    <button type="button" class="chip" data-s="Either party may terminate this agreement by giving thirty days written notice to the other party.">Termination</button>
+                </div>
+            </form>
+        </section>
+
+        {% if error %}
+        <div class="error">{{ error }}</div>
+        {% endif %}
+
+        {% if results is not none %}
+        <section class="results">
+            {% if results %}
+            <h2>Top {{ results|length }} similar clauses
+                {% if selected_type != 'all' %}<span>· {{ selected_type }}</span>{% endif %}</h2>
+            {% for r in results %}
+            <article class="result">
+                <div class="result-top">
+                    <span class="rank">#{{ r.rank }}</span>
+                    <span class="tag">{{ r.type }}</span>
+                    <span class="score">Similarity <b>{{ r.percent }}%</b></span>
+                </div>
+                <p>{{ r.clause }}</p>
+                <div class="bar"><span data-w="{{ r.percent }}"></span></div>
+                <div class="meta">Cosine score: {{ r.score }}</div>
+            </article>
+            {% endfor %}
+            {% else %}
+            <div class="error">No clauses of this type were found. Try “All clause types”.</div>
+            {% endif %}
+        </section>
+        {% endif %}
+    </main>
+
+    <script>
+        requestAnimationFrame(function () {
+            document.querySelectorAll('.bar span').forEach(function (s) { s.style.width = s.dataset.w + '%'; });
+        });
+        document.querySelectorAll('.chip').forEach(function (b) {
+            b.addEventListener('click', function () { document.getElementById('text').value = b.dataset.s; });
+        });
+    </script>
+</body>
+</html>
