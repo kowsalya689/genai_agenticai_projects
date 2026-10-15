@@ -1,0 +1,34 @@
+# Byte-compiled / cache
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environments
+venv/
+env/
+.venv/
+
+# Environment variables
+.env
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Logs
+*.log
+
+# Trained model files (keep the folder, ignore large binaries if desired)
+# Comment the next two lines out if you want to commit your model to git.
+models/*.h5
+models/*.keras
+!models/.gitkeep
+
+# Test / coverage artifacts
+.pytest_cache/
+.coverage
+htmlcov/

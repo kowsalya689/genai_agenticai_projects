@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+
+{% block title %}MNIST Autoencoder — AI Image Reconstruction{% endblock %}
+
+{% block content %}
+<div class="bg-field" aria-hidden="true"></div>
+
+<header class="navbar">
+    <div class="navbar-inner">
+        <div class="brand">
+            <span class="brand-mark" aria-hidden="true">
+                <svg viewBox="0 0 32 32" width="22" height="22" fill="none">
+                    <circle cx="6" cy="8" r="2.4" fill="currentColor"/>
+                    <circle cx="6" cy="16" r="2.4" fill="currentColor"/>
+                    <circle cx="6" cy="24" r="2.4" fill="currentColor"/>
+                    <circle cx="16" cy="12" r="2.4" fill="currentColor"/>
+                    <circle cx="16" cy="20" r="2.4" fill="currentColor"/>
+                    <circle cx="26" cy="16" r="2.8" fill="currentColor"/>
+                    <path d="M8 8L14 12M8 16L14 12M8 16L14 20M8 24L14 20M18 12L24 16M18 20L24 16" stroke="currentColor" stroke-width="1.3" opacity="0.55"/>
+                </svg>
+            </span>
+            <div class="brand-text">
+                <span class="brand-title">MNIST Autoencoder</span>
+                <span class="brand-subtitle">AI Image Reconstruction</span>
+            </div>
+        </div>
+
+        <div class="model-status" id="model-status" data-loaded="{{ 'true' if model_loaded else 'false' }}">
+            <span class="status-dot" aria-hidden="true"></span>
+            <span class="status-text">{{ 'Model online' if model_loaded else 'Model unavailable' }}</span>
+        </div>
+    </div>
+</header>
+
+<main class="page">
+    <section class="hero">
+        <p class="hero-eyebrow">Encode. Compress. Reconstruct.</p>
+        <h1 class="hero-title">Watch a neural network rebuild an image from a 784-number memory</h1>
+        <p class="hero-description">
+            Upload any image and this trained Autoencoder will squeeze it down to a compact
+            latent representation, then reconstruct it in the same grayscale, 28&times;28
+            format it learned from the MNIST digit dataset. Sharper digits and simple shapes
+            reconstruct best — it's a direct look at what the network actually learned.
+        </p>
+    </section>
+
+    <section class="workspace">
+        <!-- Upload Card -->
+        <div class="card upload-card" id="upload-card">
+            <div class="card-header">
+                <h2>Upload an image</h2>
+                <p>PNG, JPG, JPEG, WEBP or JFIF &middot; up to 8&nbsp;MB</p>
+            </div>
+
+            <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Upload an image">
+                <input type="file" id="file-input" accept=".png,.jpg,.jpeg,.webp,.jfif" hidden>
+
+                <div class="dropzone-idle" id="dropzone-idle">
+                    <span class="dropzone-icon" aria-hidden="true">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
+                            <path d="M12 16V4M12 4L7 9M12 4L17 9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M4 16V18.5C4 19.8807 5.11929 21 6.5 21H17.5C18.8807 21 20 19.8807 20 18.5V16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </span>
+                    <p class="dropzone-title">Drag &amp; drop image</p>
+                    <p class="dropzone-subtitle">or click to browse</p>
+                </div>
+
+                <div class="dropzone-selected hidden" id="dropzone-selected">
+                    <img id="preview-thumb" alt="Selected image preview">
+                    <div class="selected-meta">
+                        <span class="selected-filename" id="selected-filename"></span>
+                        <button type="button" class="link-btn" id="remove-file-btn">Remove</button>
+                    </div>
+                </div>
+            </div>
+
+            <button type="button" class="btn btn-primary btn-block" id="reconstruct-btn" disabled>
+                <span class="btn-label">Reconstruct image</span>
+                <span class="btn-spinner hidden" aria-hidden="true"></span>
+            </button>
+
+            <p class="status-line" id="status-line" role="status" aria-live="polite"></p>
+        </div>
+
+        <!-- Result Section -->
+        <div class="card result-card hidden" id="result-card">
+            <div class="card-header">
+                <h2>Reconstruction result</h2>
+                <p>Original input next to what the network reconstructed from its latent code</p>
+            </div>
+
+            <div class="result-grid">
+                <figure class="result-figure">
+                    <div class="result-image-wrap">
+                        <img id="original-output" alt="Original image, preprocessed to 28 by 28 grayscale">
+                    </div>
+                    <figcaption>
+                        <span class="result-label">Original</span>
+                        <span class="result-dims" id="original-dims"></span>
+                    </figcaption>
+                </figure>
+
+                <div class="result-arrow" aria-hidden="true">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                        <path d="M5 12H19M19 12L13 6M19 12L13 18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+
+                <figure class="result-figure">
+                    <div class="result-image-wrap">
+                        <img id="reconstructed-output" alt="Reconstructed image produced by the Autoencoder">
+                    </div>
+                    <figcaption>
+                        <span class="result-label">Reconstructed</span>
+                        <span class="result-dims" id="reconstructed-dims"></span>
+                    </figcaption>
+                </figure>
+            </div>
+
+            <div class="result-actions">
+                <button type="button" class="btn btn-ghost" id="try-another-btn">Try another image</button>
+                <button type="button" class="btn btn-primary" id="download-btn">Download reconstruction</button>
+            </div>
+        </div>
+    </section>
+</main>
+
+<div class="toast" id="toast" role="alert" aria-live="assertive"></div>
+{% endblock %}
