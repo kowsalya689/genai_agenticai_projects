@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Acme Retail – Product Recommendation Similarity System
 
 FastAPI web app + FastText embeddings + cosine similarity (Assessment AR-ML-2026-006).
@@ -54,3 +55,7 @@ Using your Colab model instead? Copy `acme_fasttext.model` (and its `.npy` files
 - **Unseen words** = FastText composes vectors from character n-grams, so typos and new words still work.
 - **Evaluation** = `python -m scripts.evaluate` (Precision@10 on 500 random products).
 - Pre-trained models: none; FastText is trained from scratch with gensim.
+=======
+
+Last updated: October 14, 2026
+>>>>>>> 4951d43d077619a2619b13d172295263ce94bcbe
