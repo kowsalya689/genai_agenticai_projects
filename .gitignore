@@ -1,8 +1,7 @@
-<<<<<<< HEAD
 .venv/
 __pycache__/
 *.pyc
+.env
 models/*
 !models/.gitkeep
-=======
 
