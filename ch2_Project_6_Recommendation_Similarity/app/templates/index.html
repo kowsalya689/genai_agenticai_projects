@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Acme Retail · Product Recommender</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<header>
+  <h1>Acme Retail <span>Product Recommender</span></h1>
+  <p id="stats">FastText embeddings · cosine similarity</p>
+</header>
+
+<main>
+  <section class="panel">
+    <div class="tabs">
+      <button class="tab active" data-mode="text">Search by text</button>
+      <button class="tab" data-mode="id">Search by product ID</button>
+    </div>
+
+    <div id="mode-text">
+      <input id="text-input" type="text" placeholder="e.g. men's black running shoes" autocomplete="off">
+    </div>
+    <div id="mode-id" hidden>
+      <input id="id-input" type="number" min="0" placeholder="Product ID (0 – catalogue size)">
+      <input id="name-input" type="text" placeholder="…or type a product name to find its ID" autocomplete="off">
+      <ul id="name-hits"></ul>
+    </div>
+
+    <div class="row">
+      <label>Top N <input id="top-n" type="number" min="1" max="50" value="10"></label>
+      <label>Category
+        <select id="category"><option value="">All categories</option></select>
+      </label>
+      <button id="go">Find similar products</button>
+    </div>
+    <p id="msg" class="msg"></p>
+  </section>
+
+  <section id="query-box" class="panel" hidden></section>
+  <section id="results" class="grid"></section>
+</main>
+<script src="/static/app.js"></script>
+</body>
+</html>

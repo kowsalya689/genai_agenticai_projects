@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 __pycache__/
 *.py[cod]
 .venv/
@@ -9,3 +10,12 @@ saved_models/*.keras
 saved_models/*.pkl
 saved_models/*.h5
 data/*.csv
+=======
+.venv/
+__pycache__/
+*.pyc
+.env
+models/*
+!models/.gitkeep
+
+>>>>>>> d6779b853c0002c32a4115111490f985c12ae54e
