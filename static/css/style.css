@@ -1,0 +1,88 @@
+:root {
+  --navy: #1f3864;
+  --midblue: #4472c4;
+  --paleblue: #eef3fa;
+}
+
+body {
+  background: linear-gradient(160deg, #f6f8fc 0%, #e9eef7 100%);
+  min-height: 100vh;
+  color: #2b2b2b;
+}
+
+.app-title {
+  color: var(--navy);
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.main-card {
+  max-width: 760px;
+  margin: 0 auto;
+  border: none;
+  border-radius: 16px;
+}
+
+.btn-primary {
+  background-color: var(--navy);
+  border-color: var(--navy);
+}
+.btn-primary:hover {
+  background-color: #17284a;
+  border-color: #17284a;
+}
+.btn-outline-primary {
+  color: var(--navy);
+  border-color: var(--navy);
+}
+.btn-outline-primary:hover {
+  background-color: var(--navy);
+  border-color: var(--navy);
+}
+
+.form-range::-webkit-slider-thumb { background: var(--navy); }
+.form-range::-moz-range-thumb { background: var(--navy); }
+
+.output-area {
+  background: var(--paleblue);
+  border: 1px solid #d3deee;
+  border-left: 5px solid var(--navy);
+  border-radius: 10px;
+  padding: 1rem 1.25rem;
+}
+
+/* Top-k prediction chips */
+.pred-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: #fff;
+  border: 1px solid #cdd8ea;
+  border-radius: 999px;
+  padding: 0.3rem 0.8rem;
+  margin: 0.25rem 0.35rem 0.25rem 0;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: transform 0.06s ease, border-color 0.15s ease;
+}
+.pred-chip:hover { transform: translateY(-1px); border-color: var(--midblue); }
+.pred-chip .prob {
+  font-size: 0.78rem;
+  color: #fff;
+  background: var(--midblue);
+  border-radius: 999px;
+  padding: 0.05rem 0.5rem;
+}
+
+.generated-text {
+  font-size: 1.05rem;
+  line-height: 1.6;
+}
+.generated-text .seed { color: #6b7280; }
+.generated-text .new { color: var(--navy); font-weight: 600; }
+
+.spinner-inline {
+  width: 1rem;
+  height: 1rem;
+  border-width: 0.15em;
+}

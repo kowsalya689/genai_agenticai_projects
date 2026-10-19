@@ -1,0 +1,11 @@
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.DS_Store
+# Large binary artifacts are provided out-of-band, not committed:
+saved_models/*.keras
+saved_models/*.pkl
+saved_models/*.h5
+data/*.csv

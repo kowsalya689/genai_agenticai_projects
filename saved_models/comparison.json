@@ -1,0 +1,29 @@
+{
+  "rnn": {
+    "val_loss": 4.6359,
+    "val_accuracy": 0.2223,
+    "val_top5_accuracy": 0.4258,
+    "perplexity": 103.12,
+    "parameters": 2401992,
+    "epochs_trained": 8,
+    "seconds_per_epoch": 17.0
+  },
+  "gru": {
+    "val_loss": 4.4064,
+    "val_accuracy": 0.2411,
+    "val_top5_accuracy": 0.4518,
+    "perplexity": 81.98,
+    "parameters": 2636744,
+    "epochs_trained": 9,
+    "seconds_per_epoch": 33.4
+  },
+  "lstm": {
+    "val_loss": 4.4785,
+    "val_accuracy": 0.2366,
+    "val_top5_accuracy": 0.4467,
+    "perplexity": 88.1,
+    "parameters": 2752968,
+    "epochs_trained": 11,
+    "seconds_per_epoch": 34.9
+  }
+}

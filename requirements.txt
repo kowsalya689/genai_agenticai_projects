@@ -1,0 +1,28 @@
+# ============================================================================
+#  Runtime dependencies
+# ============================================================================
+# IMPORTANT — Keras version:
+# The trained ``.keras`` artifacts in saved_models/ were exported from the
+# Google Colab training notebook using **Keras 3.13.2**. The ``.keras`` format
+# embeds serialization metadata (e.g. DTypePolicy, quantization_config) that
+# OLDER Keras 3 versions cannot read. TensorFlow 2.16.1 ships Keras 3.0.5 by
+# default, which raises:
+#     TypeError: <Sequential> could not be deserialized properly ...
+# and the app then reports "model not loaded".
+#
+# The fix is to pin standalone Keras to the SAME version used for training.
+# In TF 2.16+, ``tf.keras`` resolves to the installed standalone ``keras``
+# package, so this pin is what actually loads the model. Do NOT remove it.
+
+tensorflow==2.16.1
+keras==3.12.0
+numpy==1.26.4
+fastapi==0.111.0
+uvicorn[standard]==0.30.1
+pydantic==2.7.4
+jinja2==3.1.4
+
+# Optional testing dependencies
+pytest==8.2.2
+httpx==0.27.0
+

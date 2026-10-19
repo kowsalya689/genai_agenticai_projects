@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{ app_name }}</title>
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+    crossorigin="anonymous" />
+  <link href="/static/css/style.css" rel="stylesheet" />
+</head>
+<body>
+  <div class="container py-4 py-md-5">
+
+    <header class="text-center mb-4">
+      <h1 class="app-title">Next Word Prediction</h1>
+      <p class="text-secondary mb-0">LSTM language model &middot; predict &amp; generate on news-article text</p>
+      <span id="statusBadge" class="badge rounded-pill mt-2 bg-secondary">checking status&hellip;</span>
+    </header>
+
+    <div class="card shadow-sm main-card">
+      <div class="card-body p-4">
+
+        <!-- Input -->
+        <label for="seedText" class="form-label fw-semibold">Enter a sentence or phrase</label>
+        <textarea id="seedText" class="form-control mb-3" rows="2"
+                  placeholder="e.g. the stock market">the government has decided to</textarea>
+
+        <!-- Controls -->
+        <div class="row g-3 align-items-end mb-3">
+          <div class="col-6 col-md-3">
+            <label for="modelArch" class="form-label mb-1">Model</label>
+            <select id="modelArch" class="form-select">
+              <option value="lstm" selected>LSTM</option>
+            </select>
+          </div>
+          <div class="col-6 col-md-3">
+            <label for="topK" class="form-label mb-1">Top-k predictions</label>
+            <select id="topK" class="form-select">
+              <option value="3">3</option>
+              <option value="5" selected>5</option>
+              <option value="10">10</option>
+            </select>
+          </div>
+          <div class="col-6 col-md-3">
+            <label for="numWords" class="form-label mb-1">Words to generate</label>
+            <input id="numWords" type="number" class="form-control" min="1" max="50" value="14" />
+          </div>
+          <div class="col-12 col-md-6">
+            <label for="temperature" class="form-label mb-1">
+              Temperature: <span id="tempValue" class="fw-semibold">0.70</span>
+              <small class="text-secondary">(0 = greedy, higher = more creative)</small>
+            </label>
+            <input id="temperature" type="range" class="form-range" min="0" max="2" step="0.05" value="0.7" />
+          </div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="d-flex flex-wrap gap-2">
+          <button id="predictBtn" class="btn btn-primary px-4">Predict next word</button>
+          <button id="generateBtn" class="btn btn-outline-primary px-4">Generate text</button>
+        </div>
+
+        <!-- Output -->
+        <div id="output" class="output-area mt-4 d-none"></div>
+        <div id="error" class="alert alert-danger mt-3 d-none" role="alert"></div>
+
+      </div>
+    </div>
+
+    <footer class="text-center text-secondary mt-4 small">
+      NX-NLP-2026-014 &middot; TensorFlow / Keras LSTM &middot; FastAPI
+    </footer>
+  </div>
+
+  <script src="/static/js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,4 @@
+model,val_loss,val_accuracy,val_top5_accuracy,perplexity,parameters,epochs_trained,seconds_per_epoch
+rnn,4.6359,0.2223,0.4258,103.12,2401992.0,8.0,17.0
+gru,4.4064,0.2411,0.4518,81.98,2636744.0,9.0,33.4
+lstm,4.4785,0.2366,0.4467,88.1,2752968.0,11.0,34.9

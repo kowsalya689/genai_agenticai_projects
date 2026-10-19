@@ -1,0 +1,8 @@
+{
+  "context_length": 15,
+  "vocab_size": 5000,
+  "embedding_dim": 200,
+  "hidden_units": 256,
+  "seq_context": 15,
+  "oov_token": "<OOV>"
+}
