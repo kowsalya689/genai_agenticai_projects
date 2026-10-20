@@ -1,0 +1,6 @@
+flask>=3.0
+transformers>=4.41,<5
+torch>=2.1
+sentencepiece>=0.1.99
+sacremoses>=0.1.1
+langdetect>=1.0.9

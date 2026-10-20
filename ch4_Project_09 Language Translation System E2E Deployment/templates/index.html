@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Multilingual Support Translator</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+  <main class="app">
+    <header class="header">
+      <h1>Support Translator</h1>
+      <p class="subtitle">Powered by NLLB-200 &middot; preserves error codes, URLs &amp; product IDs</p>
+    </header>
+
+    <section class="panels">
+      <!-- Source -->
+      <div class="panel">
+        <div class="panel-top">
+          <select id="source-lang" class="lang-select" aria-label="Source language">
+            <option value="auto">Detect language</option>
+          </select>
+          <span id="detected" class="detected"></span>
+        </div>
+        <textarea id="input" class="text-area" placeholder="Type a customer message..." maxlength="2000"></textarea>
+        <div class="panel-bottom">
+          <span id="char-count" class="char-count">0 / 2000</span>
+          <button id="clear-btn" class="link-btn" type="button">Clear</button>
+        </div>
+      </div>
+
+      <!-- Swap -->
+      <button id="swap-btn" class="swap-btn" type="button" title="Swap languages" aria-label="Swap languages">&#8646;</button>
+
+      <!-- Target -->
+      <div class="panel">
+        <div class="panel-top">
+          <select id="target-lang" class="lang-select" aria-label="Target language"></select>
+          <span id="latency" class="detected"></span>
+        </div>
+        <div id="output" class="text-area output" aria-live="polite"></div>
+        <div class="panel-bottom">
+          <span id="status" class="char-count"></span>
+          <button id="copy-btn" class="link-btn" type="button">Copy</button>
+        </div>
+      </div>
+    </section>
+
+    <button id="translate-btn" class="translate-btn" type="button">Translate</button>
+
+    <footer class="footer">
+      Model loads on the first translation (may take a minute). Runs fully on your machine.
+    </footer>
+  </main>
+
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
