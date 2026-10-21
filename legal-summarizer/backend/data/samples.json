@@ -1,0 +1,46 @@
+[
+  {
+    "id": "notice",
+    "title": "Short notice (single clause)",
+    "text": "Notice of Termination. Pursuant to Clause 12.2 of the Supply Agreement dated 14 February 2025 between Harbor Textiles Pvt. Ltd. (the \"Supplier\") and Lumen Retail Private Limited (the \"Buyer\"), the Buyer hereby gives the Supplier sixty (60) days' written notice of termination. The termination shall take effect on 30 September 2026, and all outstanding invoices, including the sum of INR 18,75,000, shall be settled on or before that date.",
+    "key_facts": [
+      "Harbor Textiles",
+      "Lumen Retail",
+      "30 September 2026",
+      "18,75,000"
+    ]
+  },
+  {
+    "id": "nda",
+    "title": "Mutual NDA",
+    "text": "MUTUAL NON-DISCLOSURE AGREEMENT. This Mutual Non-Disclosure Agreement (the \"Agreement\") is entered into as of 1 March 2026 (the \"Effective Date\") between Northwind Analytics Inc., a Delaware corporation (\"Northwind\"), and Kestrel Biosciences GmbH, a company organised under the laws of Germany (\"Kestrel\"). 1. Purpose. The parties wish to explore a potential research collaboration concerning diagnostic algorithms (the \"Purpose\") and may disclose Confidential Information to each other for that Purpose only. 2. Confidential Information. \"Confidential Information\" means any non-public technical, financial or commercial information disclosed by one party to the other, whether orally, in writing or by inspection, that is marked confidential or would reasonably be understood to be confidential. It excludes information that is publicly available through no fault of the receiving party, was already known to the receiving party, or is independently developed without use of the disclosing party's information. 3. Obligations. Each receiving party shall hold the other's Confidential Information in strict confidence, use it solely for the Purpose, and disclose it only to employees and advisers who need to know it and are bound by written confidentiality obligations no less protective than those in this Agreement. 4. Term. This Agreement remains in force for two (2) years from the Effective Date, and the confidentiality obligations survive for five (5) years after its expiry or termination. 5. Remedies. Each party acknowledges that breach may cause irreparable harm and that the other party may seek injunctive relief in addition to any other remedy. 6. Governing Law. This Agreement is governed by the laws of the State of New York.",
+    "key_facts": [
+      "Northwind",
+      "Kestrel",
+      "1 March 2026",
+      "New York"
+    ]
+  },
+  {
+    "id": "msa",
+    "title": "Master Services Agreement",
+    "text": "MASTER SERVICES AGREEMENT. This Master Services Agreement (the \"Agreement\") is made on 15 January 2026 (the \"Effective Date\") between Corvane Systems Pvt. Ltd., a company incorporated in India with its registered office in Coimbatore (the \"Provider\"), and Ardent Logistics Limited, a company incorporated in England and Wales (the \"Client\"). The Provider has agreed to supply cloud-based fleet management software and related support services to the Client on the terms set out below.\n\n1. Services. The Provider shall deliver the services described in each statement of work signed by both parties (each a \"Statement of Work\"). Each Statement of Work shall specify the deliverables, milestones, acceptance criteria and applicable fees. In the event of a conflict, the terms of this Agreement prevail over those of a Statement of Work unless the Statement of Work expressly states otherwise.\n\n2. Fees and Payment. The Client shall pay the Provider a fixed annual subscription fee of USD 240,000, invoiced in four equal quarterly instalments of USD 60,000. Each invoice is payable within thirty (30) days of receipt. Overdue amounts bear interest at 1.5% per month from the due date until payment in full. All fees are exclusive of applicable taxes, which the Client shall bear.\n\n3. Term and Renewal. This Agreement commences on the Effective Date and continues for an initial term of three (3) years. It renews automatically for successive one (1) year periods unless either party gives written notice of non-renewal at least ninety (90) days before the end of the then-current term.\n\n4. Service Levels. The Provider shall maintain monthly platform availability of at least 99.9%, excluding scheduled maintenance of which the Client has received at least five (5) business days' notice. If availability falls below 99.0% in any calendar month, the Client shall be entitled to a service credit of ten percent (10%) of that month's pro-rated fee.\n\n5. Data Protection. Each party shall comply with all applicable data protection laws. The Provider shall process personal data only on the Client's documented instructions, implement appropriate technical and organisational security measures, and notify the Client without undue delay and in any event within seventy-two (72) hours of becoming aware of a personal data breach.\n\n6. Intellectual Property. All intellectual property rights in the software and the Provider's pre-existing materials remain with the Provider. The Client retains ownership of all data it supplies and receives a non-exclusive, non-transferable licence to use the software during the term.\n\n7. Limitation of Liability. Neither party excludes liability for death, personal injury caused by negligence, or fraud. Subject to that, each party's total aggregate liability arising under this Agreement in any contract year shall not exceed the fees paid or payable in that contract year, and neither party is liable for indirect or consequential loss.\n\n8. Termination. Either party may terminate this Agreement immediately by written notice if the other commits a material breach that remains unremedied thirty (30) days after written notice requiring remedy, or if the other becomes insolvent. On termination the Provider shall return or delete the Client's data within sixty (60) days.\n\n9. Governing Law and Disputes. This Agreement is governed by the laws of England and Wales. The parties submit to the exclusive jurisdiction of the courts of London for any dispute arising out of or in connection with it.",
+    "key_facts": [
+      "Corvane",
+      "Ardent",
+      "15 January 2026",
+      "240,000"
+    ]
+  },
+  {
+    "id": "regulatory",
+    "title": "Regulatory notice (fictional regulator)",
+    "text": "REGULATORY NOTICE No. NDPRA/2026/14 (sample document, fictional). The National Digital Payments Regulatory Authority (the \"Authority\") directs all licensed payment service providers to complete migration of customer authentication to the revised two-factor framework by 31 December 2026. Regulated entities must submit a board-approved implementation plan to the Authority's Supervision Department by 30 June 2026 and file quarterly progress reports thereafter. Non-compliance may attract a monetary penalty of up to INR 1,00,00,000 per instance under Section 47A of the Payments Oversight Act, 2019, in addition to supervisory action. Entities with fewer than 50,000 active customer accounts may apply in writing for an extension of up to ninety (90) days, provided the application is received no later than 31 August 2026.",
+    "key_facts": [
+      "NDPRA/2026/14",
+      "31 December 2026",
+      "30 June 2026",
+      "1,00,00,000"
+    ]
+  }
+]
