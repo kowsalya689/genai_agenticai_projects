@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LexBrief - legal document summaries that show their work</title>
+  <meta name="description" content="Summarise contracts, policies and notices with a fine-tuned BART model, and see every number, date and name checked against the source.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230e5a4a'/%3E%3Crect x='14' y='38' width='36' height='12' fill='%23ffe15d'/%3E%3Cpath d='M16 18h32M16 28h24' stroke='%23fff' stroke-width='5' stroke-linecap='round'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <header class="masthead">
+    <div>
+      <h1 class="brand">LexBrief</h1>
+      <p class="tagline">Legal document summaries that show their work</p>
+    </div>
+    <div class="status" id="status" role="status" data-state="loading">
+      <span class="status-dot" aria-hidden="true"></span>
+      <span id="statusText">Connecting to the server</span>
+    </div>
+  </header>
+
+  <main class="desk">
+    <section class="toolbar" aria-label="Document and settings">
+      <div class="samples">
+        <span class="toolbar-label" id="samplesLabel">Try a sample</span>
+        <div class="chips" id="samples" role="group" aria-labelledby="samplesLabel"></div>
+      </div>
+      <label class="btn ghost" for="fileInput">Upload a file
+        <input type="file" id="fileInput" accept=".txt,.md,.pdf,.docx" hidden>
+      </label>
+      <div class="ratio">
+        <label for="ratio">Summary length: <output id="ratioOut" for="ratio">20% of the source</output></label>
+        <input type="range" id="ratio" min="5" max="50" step="5" value="20">
+      </div>
+      <button class="btn primary" id="summarizeBtn" type="button" disabled>Summarise</button>
+    </section>
+
+    <div class="sheets">
+      <section class="sheet" id="sourceSheet" aria-labelledby="sourceTitle">
+        <header class="sheet-head">
+          <h2 id="sourceTitle">Source document</h2>
+          <span class="meta" id="sourceMeta">Paste text, load a sample or drop a file here</span>
+          <button class="link" id="clearBtn" type="button" hidden>Clear</button>
+        </header>
+        <textarea id="source" spellcheck="false" aria-label="Source document text"
+          placeholder="Paste a contract, policy or notice. Plain text works best, and .pdf or .docx files can be uploaded."></textarea>
+      </section>
+
+      <section class="sheet summary-sheet" aria-labelledby="summaryTitle">
+        <header class="sheet-head">
+          <h2 id="summaryTitle">Summary</h2>
+          <span class="meta" id="summaryMeta"></span>
+          <span class="actions" id="actions" hidden>
+            <button class="link" id="copyBtn" type="button">Copy</button>
+            <button class="link" id="downloadBtn" type="button">Download</button>
+          </span>
+        </header>
+
+        <div class="summary-body" id="summaryBody" aria-live="polite">
+          <div class="empty" id="emptyState">
+            <p>Your summary appears here.</p>
+            <p>Every number and date in it is highlighted. <mark class="fact">Yellow</mark> means it appears in the source. <mark class="flag">Red</mark> means it does not, and should be checked by a person.</p>
+          </div>
+          <div class="loading" id="loadingState" hidden>
+            <div class="skeleton"><i></i><i></i><i></i><i></i></div>
+            <p id="loadingText">Summarising</p>
+          </div>
+          <div class="error" id="errorState" role="alert" hidden></div>
+          <div class="result" id="resultState" hidden>
+            <p class="summary-text" id="summaryText"></p>
+            <section class="ledger" aria-labelledby="ledgerTitle">
+              <h3 id="ledgerTitle">Checked against the source</h3>
+              <ul id="ledgerList"></ul>
+              <p class="caveat">This check finds invented numbers, dates and names. It cannot tell if an obligation was changed, for example may and shall, so read the summary against the source before relying on it.</p>
+            </section>
+            <dl class="stats" id="stats"></dl>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="foot">
+    <p>Abstractive BART encoder-decoder, fine-tuned for legal text. Long documents are split into overlapping chunks and summarised in passes. <a href="/docs">API documentation</a></p>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+  <script type="module" src="/js/app.js"></script>
+</body>
+</html>
