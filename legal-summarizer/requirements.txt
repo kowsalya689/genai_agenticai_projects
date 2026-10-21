@@ -1,0 +1,17 @@
+# --- web / API ---
+fastapi>=0.115
+uvicorn[standard]>=0.30
+pydantic>=2.7
+pydantic-settings>=2.3
+python-multipart>=0.0.9
+
+# --- NLP model (install the CPU build of torch first if you have no GPU, see README) ---
+torch>=2.2
+transformers>=4.44,<6
+sentencepiece>=0.2
+safetensors>=0.4
+accelerate>=0.30
+
+# --- file upload support ---
+pypdf>=4.0
+python-docx>=1.1
