@@ -1,0 +1,11 @@
+# Frontend dependencies (Streamlit UI only).
+# The backend has its own environment and dependencies — do not mix them.
+#
+# streamlit pin: >=1.53 switched its server to Starlette and needs a newer
+# 'starlette' than FastAPI usually allows. Keeping it below 1.53 lets the
+# frontend coexist with the backend if installed in the same environment.
+# In a SEPARATE venv you may drop the upper bound and use the latest Streamlit.
+streamlit>=1.40,<1.53
+requests>=2.31
+pandas>=2.0
+fpdf2>=2.7        # renders pasted text into an in-memory PDF for /extract
