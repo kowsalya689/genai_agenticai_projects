@@ -1,0 +1,11 @@
+fastapi>=0.110
+uvicorn[standard]>=0.29
+python-multipart>=0.0.9
+pymupdf>=1.24
+python-docx>=1.1
+numpy>=1.26
+# Embedding model (BGE etc). If missing or offline, the app falls back to a
+# built-in subword hashing embedder so it still runs.
+sentence-transformers>=3.0
+# Optional resume NER (designation extraction). Pulled in by sentence-transformers.
+transformers>=4.40
