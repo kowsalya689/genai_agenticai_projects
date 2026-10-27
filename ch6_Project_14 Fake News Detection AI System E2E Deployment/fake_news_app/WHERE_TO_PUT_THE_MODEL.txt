@@ -1,0 +1,14 @@
+Unzip your fake_news_model.zip HERE (in this same folder).
+
+After unzipping you should have a folder called:
+
+    fake_news_model/
+
+...sitting right next to run.py, containing:
+    config.json
+    model.safetensors
+    tokenizer.json
+    tokenizer_config.json
+    label_map.json
+
+See Execution_Guide.docx (Step 2) for details.

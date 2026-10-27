@@ -1,0 +1,14 @@
+# Trained model (large) - keep out of git
+fake_news_model/
+*.zip
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+env/
+
+# Editor
+.vscode/
+.idea/
